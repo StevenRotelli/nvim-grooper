@@ -1,57 +1,68 @@
 # NVIM-Grooper
 
-nvim-grooper is a plugin designed to manage object libraries from vim and similar to the OEM Grooper Visual Studio Plugin
+`nvim-grooper` is a Neovim plugin designed to facilitate the management of Grooper object libraries directly from Neovim. This functionality is reminiscent of the Grooper Visual Studio Plugin provided by OEM.
 
-## Requirements
+## Prerequisites
 
-To use this plugin you must have an odbc connection to your Grooper database. for linux and mac users install
+Before using `nvim-grooper`, you must have an ODBC connection established to your Grooper database. For users on macOS and Linux, ensure the following are installed:
 
-- freetds
-- unixodbc
-- luasqlodbc
+- `freetds`
+- `unixodbc`
+- `luasql-odbc`
 
-**Installation**: Open your terminal and enter the following commands
+### Installation
 
-```zsh
-brew install freetds
-brew install unixodbc
-luarocks install luasql-odbc
-```
+1. **Install Dependencies**: If you're on macOS, you can use Homebrew:
 
-**Configure ODBC** navigate to the to the /usr/local/etc/freetds.conf add a connection to your Grooper Database
+   ```zsh
+   brew install freetds
+   brew install unixodbc
+   luarocks install luasql-odbc
+   ```
 
-```ini
-[YourServerName]
-    host = your_server_ip_or_domain
-    port = 1433
-    tds version = 7.4
-```
+2. **Configure ODBC**: Add a connection to your Grooper database in `/usr/local/etc/freetds.conf`:
 
-**Packer** to install using packer place the following in your init.lua file
+   ```ini
+   [YourServerName]
+       host = your_server_ip_or_domain
+       port = 1433
+       tds version = 7.4
+   ```
 
-```lua
-use ({StevenRotelli/nvim-grooper})
-```
+## Plugin Installation
 
-place the following in your plugins folder or init.lua
+### Using Packer
 
-```lua
-require('packer').startup(function()
-    use {
-        'your-github-username/your-plugin-repo-name',
-        config = function()
-            require('nvim-grooper').setup('YourDSNName')
-        end
-    }
-end)
-```
+1. Ensure you have [Packer](https://github.com/wbthomason/packer.nvim) installed.
 
-Alternatively You can use a connection string so
+2. In your `init.lua`, you can add:
 
-require('nvim-grooper').setup({
-conn_string = "YOUR_CONNECTION_STRING_HERE"
-})
+   ```lua
+   require('packer').startup(function()
+       use {
+           'StevenRotelli/nvim-grooper',
+           config = function()
+               -- Use a DSN
+               require('nvim-grooper').setup('YourDSNName')
+               -- Or use a connection string
+               -- require('nvim-grooper').setup({
+               --     conn_string = "YOUR_CONNECTION_STRING_HERE"
+               -- })
+           end
+       }
+   end)
+   ```
 
 ## Usage
 
-To install using Packer
+Once installed and configured, you can navigate through the Grooper object tree within Neovim. As you traverse the tree nodes, you can perform various actions:
+
+- **d**: Download
+- **u**: Update
+- **g**: Get the latest version
+
+These commands will respectively download, update, or retrieve the latest files from your Grooper setup.
+
+---
+
+This improved README now provides clear installation steps for prerequisites, corrects the Packer installation process, and offers basic usage instructions. Adjustments can be made to the usage section once more features or commands are implemented in the plugin.
