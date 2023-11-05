@@ -1,21 +1,22 @@
 local M = {}
 local luasql = require("luasql.odbc")
 local env = luasql.odbc()
-local db = require("nvim-grooper.db")
-local utils = require("nvim-grooper.utils")
+local conn
+
 -- Function to setup the plugin
 function M.setup(opts)
     opts = opts or {}
-    local conn_string = opts.conn_string
+    local conn_string = opts.conn_string -- or however you'd like to provide the details
 
-    --TODO consider creating nullcheck for opts Grooper in case user does not create database name
     if not conn_string then
         print("Connection string is required for nvim-grooper")
         return
     end
 
-    local connection = db.connect(conn_string)
-    if not connection then
+    -- Attempt to establish the connection
+    conn = env:connect(conn_string)
+
+    if not conn then
         print("Failed to connect to the database using provided connection string")
         return
     end
@@ -25,7 +26,7 @@ end
 -- Function to fetch data
 local function fetchData()
     -- Your SQL query here
-    local cursor = db:execute("SELECT * FROM TreeNode WHERE TypeName = 'Grooper.GrooperRoot'")
+    local cursor = conn:execute("SELECT * FROM ...")
     local result = {}
     local row = cursor:fetch({}, "a")
 
@@ -67,7 +68,5 @@ end
 function M.getLatest()
     -- Your logic for getting latest data
 end
-function M.get_uuid()
-    utils.get_guid()
-end
+
 return M

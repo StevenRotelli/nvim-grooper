@@ -1,31 +1,17 @@
--- lua/nvim-grooper/db.lua
 local M = {}
-local luasql = require("luasql.odbc")
-local env = luasql.odbc()
-local conn
+local db = require("nvim-grooper.db")
 
-function M.connect(conn_string)
-	conn = env:connect(conn_string)
-	return conn
+function M.setup(opts)
+    opts = opts or {}
+    local odbc_name = opts.odbc_name
+
+    if odbc_name == nil then
+        odbc_name = "Grooper"
+    end
+    local connection = db.connect(odbc_name)
+    if not connection then
+        print("Failed to connect to ODBC namme" .. odbc_name .. "databse using the")
+        return
+    end
 end
-
-function M.fetch_tree_nodes()
-	if not conn then
-		print("Error: Database connection not established")
-		return {}
-	end
-
-	local cur = conn:execute("SELECT Id, ParentId FROM TreeNode")
-	local nodes = {}
-	while true do
-		local row = cur:fetch({}, "a")
-		if not row then
-			break
-		end
-		table.insert(nodes, row)
-	end
-
-	return nodes
-end
-
 return M

@@ -1,0 +1,31 @@
+issues with luarocks package 'luasql-odbc' for sql on linux and  macos. To resolve unpack the packages
+luarocks unpack luasql-odbc
+correct the src file change #elif(unix) to #else
+correct src/ls_odbc.c line 302 include case SQL_GUID
+luarocks make luasql-odbc-2.6.0-2.rockspec
+
+other findings
+
+/usr/local/etc/freetds.conf
+
+[Grooper]
+	host = okcsstr01.bis.com
+	port = 1433
+    database = STROTELLI_GROOPER
+	tds version = 7.3
+
+/usr/local/etc/odbcinst.ini
+
+[FreeTDS]
+Description=FreeTDS Driver for Linux & MSSQL
+Driver=/usr/local/lib/libtdsodbc.so
+Setup=/usr/local/lib/libtdsodbc.so
+UsageCount=1
+
+/usr/local/etc/odbcinst.ini
+
+[Grooper]
+Description         = Test to SQLServer
+Driver              = FreeTDS
+Servername          = Grooper
+REALM = BIS.com

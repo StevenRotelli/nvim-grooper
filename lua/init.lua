@@ -1,13 +1,10 @@
--- lua/nvim-grooper/init.lua
-
 local M = {}
+
+-- Importing submodules
 M.db = require("nvim-grooper.db")
 M.tree = require("nvim-grooper.tree")
-
-function M.setup(opts)
-	M.db.connect(opts.conn_string)
-	-- Further initialization if needed
-end
+M.utils = require("nvim-grooper.utils")
+-- If you have any initialization code, it can go here
 
 return M
 

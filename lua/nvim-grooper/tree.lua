@@ -3,8 +3,9 @@
 local M = {}
 local db = require("nvim-grooper.db")
 
-function M.show_tree()
-	local nodes = db.fetch_tree_nodes()
+function M.toggle()
+	print("show_tree")
+	local nodes = db.ChecObjectLibrary()
 
 	-- Convert the list of nodes to a hierarchical structure
 	local tree = {}
